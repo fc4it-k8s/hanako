@@ -21,7 +21,7 @@ spec:
         app: ecsdemo-crystal
     spec:
       containers:
-      - image: nginx #brentley/ecsdemo-crystal:latest
+      - image: brentley/ecsdemo-crystal:latest
         imagePullPolicy: Always
         name: ecsdemo-crystal
         ports:
