@@ -5,6 +5,7 @@ Region: Ohio us-east-2
 ## Installing the Charts
 
 ### Ecs-helm
+To be updated
 
 ```console
 helm repo add ecs-helm 
