@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ecsdemo-crystal
+  labels:
+    app: ecsdemo-crystal
+    #  namespace: default
+spec:
+  replicas: {{ .Values.crystal.replicas }}
+  selector:
+    matchLabels:
+      app: ecsdemo-crystal
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: ecsdemo-crystal
+    spec:
+      {{- if .Values.securityContext.enabled }}
+      securityContext:
+        fsGroup: {{ .Values.securityContext.fsGroup }}
+        runAsUser: {{ .Values.securityContext.runAsUser }}
+      {{- end }}
+      containers:
+      - image: {{ .Values.crystal.image.name}}:{{ .Values.crystal.image.tag}}
+        imagePullPolicy: Always
+        name: ecsdemo-crystal
+        ports:
+        - containerPort: {{ .Values.crystal.containerPort }}
+          protocol: TCP

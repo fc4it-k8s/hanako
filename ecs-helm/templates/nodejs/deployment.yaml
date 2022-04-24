@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ecsdemo-nodejs
+  labels:
+    app: ecsdemo-nodejs
+    #  namespace: default
+spec:
+  replicas: {{ .Values.nodejs.replicas }}
+  selector:
+    matchLabels:
+      app: ecsdemo-nodejs
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: ecsdemo-nodejs
+    spec:
+      {{- if .Values.securityContext.enabled }}
+      securityContext:
+        fsGroup: {{ .Values.securityContext.fsGroup }}
+        runAsUser: {{ .Values.securityContext.runAsUser }}
+      {{- end }}
+      containers:
+      - image: {{ .Values.nodejs.image.name}}:{{ .Values.nodejs.image.tag}}
+        imagePullPolicy: Always
+        name: ecsdemo-nodejs
+        ports:
+        - containerPort: 3000
+          protocol: TCP

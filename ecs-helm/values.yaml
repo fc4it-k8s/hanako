@@ -1,0 +1,32 @@
+# Default values for ecs-helm.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+
+crystal:
+        image: 
+                tag: latest
+                name: brentley/ecsdemo-crystal
+        replicas: 2
+        containerPort: 80
+nodejs:
+        image:
+                tag: latest
+                name: brentley/ecsdemo-nodejs 
+        replicas: 2
+
+frontend:
+        image: 
+                name: brentley/ecsdemo-frontend
+                tag: latest
+        replicas: 3
+
+
+## Pod Security Context
+## ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
+##
+securityContext:
+  enabled: true
+  fsGroup: 1001
+  runAsUser: 1001
+
